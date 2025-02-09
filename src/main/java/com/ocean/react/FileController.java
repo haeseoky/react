@@ -3,6 +3,11 @@ package com.ocean.react;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +66,12 @@ public class FileController {
     }
 
     @PostMapping(value = "/base64EncodingFile")
-    public void postBase64EncodingFile(@RequestBody Base64Request data) {
+    public void postBase64EncodingFile(@RequestBody Base64Request data) throws IOException {
         log.info("data.getBase64(): {}", data.getBase64());
+
+        byte[] decode = Base64.getDecoder().decode(data.getBase64());
+        Path yyyyMMddHHmmssSSS = Files.write(new File("/Users/haeseoky/work/study/project/spring/react/" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))+".png").toPath(),
+            decode);
+
     }
 }
